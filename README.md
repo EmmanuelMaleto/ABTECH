@@ -1,4 +1,4 @@
-# Abtech Pulse HRMS
+# Abtech HRMS
 
 A modern, full-featured Human Resource Management System (HRMS) dashboard built with React, TypeScript, Vite, shadcn-ui, and Tailwind CSS.
 
