@@ -68,7 +68,6 @@ The app will be available at [http://localhost:5173](http://localhost:5173) by d
 - **Compliance** (`/compliance`): Compliance monitoring (demo)
 - **404 Not Found**: Custom error page for invalid routes
 
-> **Note:** Some features are currently in demo mode and use static data. Integrate with your backend or APIs for full functionality.
 
 ## License
 
