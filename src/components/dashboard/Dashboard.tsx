@@ -1,76 +1,17 @@
-import { Users, Clock, DollarSign, TrendingUp, Calendar, UserCheck, AlertCircle, CheckCircle2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StatsCard } from "./StatsCard";
 import heroImage from "@/assets/hrms-hero.jpg";
-import { useState } from "react";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormItem, FormLabel, FormControl } from "@/components/ui/form";
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-
-const departments = ["Engineering", "Product", "Design", "Human Resources", "Sales", "Marketing", "Finance"];
-
-function AddEmployeeDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
-  const [form, setForm] = useState({ name: "", email: "", department: "", position: "" });
-  const handleChange = (e: any) => setForm({ ...form, [e.target.name]: e.target.value });
-  const handleDept = (value: string) => setForm({ ...form, department: value });
-  const handleSubmit = (e: any) => { e.preventDefault(); onOpenChange(false); };
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Employee</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <FormItem>
-            <FormLabel>Name</FormLabel>
-            <FormControl>
-              <Input name="name" value={form.name} onChange={handleChange} required />
-            </FormControl>
-          </FormItem>
-          <FormItem>
-            <FormLabel>Email</FormLabel>
-            <FormControl>
-              <Input name="email" type="email" value={form.email} onChange={handleChange} required />
-            </FormControl>
-          </FormItem>
-          <FormItem>
-            <FormLabel>Department</FormLabel>
-            <FormControl>
-              <Select value={form.department} onValueChange={handleDept}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent>
-                  {departments.map((dept) => (
-                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormControl>
-          </FormItem>
-          <FormItem>
-            <FormLabel>Position</FormLabel>
-            <FormControl>
-              <Input name="position" value={form.position} onChange={handleChange} required />
-            </FormControl>
-          </FormItem>
-          <DialogFooter>
-            <Button type="submit" className="w-full">Add Employee</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-}
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import React from "react";
 
 export function Dashboard() {
-  const [open, setOpen] = useState(false);
+  const [dialogMsg, setDialogMsg] = React.useState<string | null>(null);
+  const openDialog = (msg: string) => setDialogMsg(msg);
+  const closeDialog = () => setDialogMsg(null);
   return (
     <div className="flex-1 space-y-6 p-6">
-      <AddEmployeeDialog open={open} onOpenChange={setOpen} />
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary to-primary-hover">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -83,12 +24,8 @@ export function Dashboard() {
               Streamline your HR operations with our comprehensive management system
             </p>
             <div className="flex gap-4 mt-4">
-              <Button variant="secondary" size="sm">
-                Quick Actions
-              </Button>
-              <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
-                View Reports
-              </Button>
+              <Button variant="secondary" size="sm" onClick={() => openDialog("Demo: This would open the Quick Actions page or modal.")}>Quick Actions</Button>
+              <Button variant="outline" size="sm" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10" onClick={() => openDialog("Demo: This would open the Reports page.")}>View Reports</Button>
             </div>
           </div>
           <div className="hidden md:block">
@@ -100,7 +37,6 @@ export function Dashboard() {
           </div>
         </div>
       </div>
-
       {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard
@@ -108,7 +44,7 @@ export function Dashboard() {
           value="247"
           change="+12"
           changeType="increase"
-          icon={Users}
+          icon={null}
           description="from last month"
         />
         <StatsCard
@@ -116,7 +52,7 @@ export function Dashboard() {
           value="234"
           change="94.7%"
           changeType="increase"
-          icon={Clock}
+          icon={null}
           description="attendance rate"
         />
         <StatsCard
@@ -124,7 +60,7 @@ export function Dashboard() {
           value="18"
           change="+3"
           changeType="neutral"
-          icon={Calendar}
+          icon={null}
           description="requests"
         />
         <StatsCard
@@ -132,19 +68,19 @@ export function Dashboard() {
           value="$45,230"
           change="+2.5%"
           changeType="increase"
-          icon={DollarSign}
+          icon={null}
           description="vs last month"
         />
       </div>
-
       {/* Main Content Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Recent Activities */}
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Recent Activities
+              <span className="h-5 w-5 text-primary-foreground">
+                Recent Activities
+              </span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -170,33 +106,33 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
-
         {/* Quick Actions */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <UserCheck className="h-5 w-5" />
-              Quick Actions
+              <span className="h-5 w-5 text-primary-foreground">
+                Quick Actions
+              </span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-3">
-              <Button variant="outline" className="justify-start h-auto p-3" onClick={() => setOpen(true)}>
-                <Users className="h-4 w-4 mr-2" />
+              <Button variant="outline" className="justify-start h-auto p-3" onClick={() => openDialog("Demo: This would open the Add Employee page or modal.")}> {/* Add Employee */}
+                <span className="h-4 w-4 mr-2 text-primary-foreground" />
                 <div className="text-left">
                   <div className="font-medium">Add Employee</div>
                   <div className="text-xs text-muted-foreground">Register new team member</div>
                 </div>
               </Button>
-              <Button variant="outline" className="justify-start h-auto p-3">
-                <Calendar className="h-4 w-4 mr-2" />
+              <Button variant="outline" className="justify-start h-auto p-3" onClick={() => openDialog("Demo: This would open the Process Leave page or modal.")}> {/* Process Leave */}
+                <span className="h-4 w-4 mr-2 text-primary-foreground" />
                 <div className="text-left">
                   <div className="font-medium">Process Leave</div>
                   <div className="text-xs text-muted-foreground">Review pending requests</div>
                 </div>
               </Button>
-              <Button variant="outline" className="justify-start h-auto p-3">
-                <DollarSign className="h-4 w-4 mr-2" />
+              <Button variant="outline" className="justify-start h-auto p-3" onClick={() => openDialog("Demo: This would open the Generate Payroll page or modal.")}> {/* Generate Payroll */}
+                <span className="h-4 w-4 mr-2 text-primary-foreground" />
                 <div className="text-left">
                   <div className="font-medium">Generate Payroll</div>
                   <div className="text-xs text-muted-foreground">Monthly payroll processing</div>
@@ -206,28 +142,27 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
-
       {/* Bottom Section */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Notifications */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="h-5 w-5" />
+              <span className="h-5 w-5 text-warning" />
               Important Notifications
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-center gap-3 p-3 rounded-lg bg-warning/10 border border-warning/20">
-                <AlertCircle className="h-4 w-4 text-warning flex-shrink-0" />
+                <span className="h-4 w-4 text-warning flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium">Contract Expiry Alert</p>
                   <p className="text-xs text-muted-foreground">3 contracts expiring this month</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
-                <CheckCircle2 className="h-4 w-4 text-success flex-shrink-0" />
+                <span className="h-4 w-4 text-success flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium">Compliance Check</p>
                   <p className="text-xs text-muted-foreground">All systems up to date</p>
@@ -236,7 +171,6 @@ export function Dashboard() {
             </div>
           </CardContent>
         </Card>
-
         {/* Department Overview */}
         <Card>
           <CardHeader>
@@ -263,6 +197,14 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
+      <Dialog open={!!dialogMsg} onOpenChange={open => !open && closeDialog()}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Demo Action</DialogTitle>
+            <DialogDescription>{dialogMsg}</DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

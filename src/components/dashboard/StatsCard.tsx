@@ -1,12 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
 
 interface StatsCardProps {
   title: string;
   value: string;
   change?: string;
   changeType?: 'increase' | 'decrease' | 'neutral';
-  icon: LucideIcon;
+  icon: any; // Changed from LucideIcon to any
   description?: string;
 }
 
@@ -35,7 +34,8 @@ export function StatsCard({
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+        {/* Replaced Icon with a placeholder or null */}
+        {Icon ? <Icon className="h-4 w-4 text-muted-foreground" /> : null}
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold text-foreground">{value}</div>

@@ -1,16 +1,4 @@
 import { useState } from "react";
-import { 
-  Users, 
-  Clock, 
-  DollarSign, 
-  UserCheck, 
-  TrendingUp, 
-  BarChart3, 
-  Settings, 
-  Shield,
-  Building2,
-  Calendar
-} from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import {
@@ -30,37 +18,37 @@ const navigationItems = [
   {
     title: "Dashboard",
     url: "/",
-    icon: BarChart3,
+    icon: null,
   },
   {
     title: "Employees",
     url: "/employees",
-    icon: Users,
+    icon: null,
   },
   {
     title: "Attendance",
     url: "/attendance",
-    icon: Clock,
+    icon: null,
   },
   {
     title: "Leave Management",
     url: "/leave",
-    icon: Calendar,
+    icon: null,
   },
   {
     title: "Payroll",
     url: "/payroll",
-    icon: DollarSign,
+    icon: null,
   },
   {
     title: "Recruitment",
     url: "/recruitment",
-    icon: UserCheck,
+    icon: null,
   },
   {
     title: "Performance",
     url: "/performance",
-    icon: TrendingUp,
+    icon: null,
   },
 ];
 
@@ -68,12 +56,12 @@ const adminItems = [
   {
     title: "Settings",
     url: "/settings",
-    icon: Settings,
+    icon: null,
   },
   {
     title: "Compliance",
     url: "/compliance",
-    icon: Shield,
+    icon: null,
   },
 ];
 
@@ -102,13 +90,10 @@ export function AppSidebar() {
       <SidebarContent>
         <div className="p-4">
           <div className="flex items-center gap-2">
-            <Building2 className="h-8 w-8 text-primary" />
-            {!collapsed && (
-              <div>
-                <h2 className="text-lg font-bold text-foreground">Abtech</h2>
-                <p className="text-sm text-muted-foreground">HRMS</p>
-              </div>
-            )}
+            <div>
+              <h2 className="text-lg font-bold text-foreground">Abtech</h2>
+              <p className="text-sm text-muted-foreground">HRMS</p>
+            </div>
           </div>
         </div>
 
@@ -120,7 +105,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls(item.url)}>
-                      <item.icon className="h-5 w-5" />
+                      {item.icon && <item.icon className="h-5 w-5" />}
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
@@ -138,7 +123,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls(item.url)}>
-                      <item.icon className="h-5 w-5" />
+                      {item.icon && <item.icon className="h-5 w-5" />}
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
