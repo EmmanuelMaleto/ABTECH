@@ -11,10 +11,37 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState } from "react";
+
+function ProfileDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Profile</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col items-center gap-4 p-4">
+          <Avatar className="h-20 w-20">
+            <AvatarImage src="/api/placeholder/80/80" alt="User" />
+            <AvatarFallback className="bg-primary text-primary-foreground text-2xl">HR</AvatarFallback>
+          </Avatar>
+          <div className="text-center">
+            <div className="font-semibold text-lg">HR Manager</div>
+            <div className="text-muted-foreground text-sm">hr@abtech.com</div>
+            <div className="text-xs mt-1">Role: Admin</div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export function AppHeader() {
+  const [profileOpen, setProfileOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
       <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8" />
@@ -28,7 +55,6 @@ export function AppHeader() {
             </div>
           </div>
         </div>
-
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -71,7 +97,6 @@ export function AppHeader() {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -91,7 +116,7 @@ export function AppHeader() {
                 </div>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setProfileOpen(true)}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
