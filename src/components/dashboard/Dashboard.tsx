@@ -4,10 +4,73 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StatsCard } from "./StatsCard";
 import heroImage from "@/assets/hrms-hero.jpg";
+import { useState } from "react";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+
+const departments = ["Engineering", "Product", "Design", "Human Resources", "Sales", "Marketing", "Finance"];
+
+function AddEmployeeDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+  const [form, setForm] = useState({ name: "", email: "", department: "", position: "" });
+  const handleChange = (e: any) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleDept = (value: string) => setForm({ ...form, department: value });
+  const handleSubmit = (e: any) => { e.preventDefault(); onOpenChange(false); };
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add Employee</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <FormItem>
+            <FormLabel>Name</FormLabel>
+            <FormControl>
+              <Input name="name" value={form.name} onChange={handleChange} required />
+            </FormControl>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input name="email" type="email" value={form.email} onChange={handleChange} required />
+            </FormControl>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Department</FormLabel>
+            <FormControl>
+              <Select value={form.department} onValueChange={handleDept}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Position</FormLabel>
+            <FormControl>
+              <Input name="position" value={form.position} onChange={handleChange} required />
+            </FormControl>
+          </FormItem>
+          <DialogFooter>
+            <Button type="submit" className="w-full">Add Employee</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export function Dashboard() {
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex-1 space-y-6 p-6">
+      <AddEmployeeDialog open={open} onOpenChange={setOpen} />
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary to-primary-hover">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -118,7 +181,7 @@ export function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-3">
-              <Button variant="outline" className="justify-start h-auto p-3">
+              <Button variant="outline" className="justify-start h-auto p-3" onClick={() => setOpen(true)}>
                 <Users className="h-4 w-4 mr-2" />
                 <div className="text-left">
                   <div className="font-medium">Add Employee</div>
